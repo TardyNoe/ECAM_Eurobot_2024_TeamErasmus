@@ -1,17 +1,47 @@
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
+#include <Adafruit_SSD1306.h>
 
 // Constants
-constexpr int TRIG_PIN = 9;
-constexpr int ECHO_PIN = 10;
+constexpr int TRIG_PIN = 6;
+constexpr int ECHO_PIN = 7;
+constexpr int RIGHT_SHAFT_PIN = 4;
+constexpr int LEFT_SHAFT_PIN = 3;
+constexpr int BUTTON_PIN = 2;
+constexpr int TIRETTE_PIN = 8;
+
 constexpr float FILTER_ALPHA = 0.2;
 constexpr int BUFFER_SIZE = 3;
 constexpr int CALIBRATION_ITERATIONS = 2000;
+constexpr int LONG_PRESS_TIME = 1500;
+
+constexpr int TIMER_TIME = 10000;
+
+bool longPressOccurred = false;
+
+enum Etape { CHOIX_EQUIPE,
+             CHOIX_NUMERO_ROBOT };
+Etape etape = CHOIX_EQUIPE;
+
+int equipe = 0;  // 0 pour jaune, 1 pour bleu
+int numeroRobot = 1;
+bool isTeamSelected = false;
+bool isRobotNumberSelected = false;
+
+bool isSetupFinished = false;
+
+unsigned long boutonPressedTime = 0;
+bool isPressing = false;
+
+unsigned long tiretteTimerStart = 0;
+bool tiretteTimerRunning = false;
 
 // Objects
 Adafruit_MotorShield motorShield;
 Adafruit_DCMotor* rightMotor;
 Adafruit_DCMotor* leftMotor;
+const int OLED_ADDRESS = 0x3C;
+Adafruit_SSD1306 display(128, 64, &Wire, OLED_ADDRESS);
 
 // Variables
 float rollRate, pitchRate, yawRate, rollAngle, pitchAngle, xPosition, yPosition, currentAngle, prevCounter, deltaT, prevIterm;
@@ -25,24 +55,148 @@ uint32_t loopTimer;
 
 void setup() {
   Serial.begin(115200);
+
+  Wire.setClock(100000);
+  Wire.begin();
+  if (!display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDRESS)) {
+    Serial.println(F("OLED display could not be initialized"));
+    while (1)
+      ;
+  }
+  display.display();
+
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  pinMode(TIRETTE_PIN, INPUT_PULLUP);
 
   initializeIMU();
   initializeMotors();
 }
 
 void loop() {
-  processSerialInput();
-  updateIMUReadings();
-  adjustMotorControl();
-  updatePositionTracking();
-  transmitData();
+  if (isSetupFinished) {
+    processSerialInput();
+    updateIMUReadings();
+    adjustMotorControl();
+    updatePositionTracking();
+    transmitData();
+    float distance = readUltrasonicDistance();
+
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, 0);
+    display.print(equipe == 0 ? "Jaune " : "Bleu ");
+    display.println(numeroRobot);
+    display.setCursor(0, 20);
+    if (digitalRead(TIRETTE_PIN) == HIGH) {
+      if (!tiretteTimerRunning) {
+        tiretteTimerStart = millis();
+        tiretteTimerRunning = true;
+      }
+
+      unsigned long timerElapsed = millis() - tiretteTimerStart;
+      if (timerElapsed <= TIMER_TIME) {  // 10 secondes
+        display.print("Timer: ");
+        display.println((TIMER_TIME - timerElapsed) / 1000);  // Affiche le temps restant en secondes
+      } else {
+        setMotorSpeeds(150, 150);
+        display.print("X Position: ");
+        display.println(xPosition);
+        display.setCursor(0, 30);
+        display.print("Y Position: ");
+        display.println(yPosition);
+        display.setCursor(0, 40);
+        display.print("Current Angle: ");
+        display.println(currentAngle);
+        display.setCursor(0, 50);
+        display.print("Distance: ");
+        display.println(distance);
+      }
+    } else {
+      display.print("Tirette presente");
+      tiretteTimerRunning = false;
+    }
+
+
+    display.display();
+
+  } else {
+    int boutonState = digitalRead(BUTTON_PIN);
+
+    if (boutonState == LOW) {
+      if (!isPressing) {
+        isPressing = true;
+        longPressOccurred = false;
+        boutonPressedTime = millis();
+      } else if (millis() - boutonPressedTime > LONG_PRESS_TIME) {
+        if (!longPressOccurred) {
+          longPressOccurred = true;
+          if (etape == CHOIX_EQUIPE) {
+            isTeamSelected = true;
+            etape = CHOIX_NUMERO_ROBOT;
+          } else {
+            isRobotNumberSelected = true;
+            etape = CHOIX_EQUIPE;
+          }
+          boutonPressedTime = millis();
+
+          if (isTeamSelected && isRobotNumberSelected) {
+            isSetupFinished = true;
+          }
+        }
+      }
+    } else if (isPressing) {
+      if (millis() - boutonPressedTime < LONG_PRESS_TIME) {
+        if (!longPressOccurred) {
+          if (etape == CHOIX_EQUIPE) {
+            equipe = !equipe;
+          } else {
+            numeroRobot = (numeroRobot % 3) + 1;
+          }
+        }
+      }
+      isPressing = false;
+    }
+
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, 0);
+    if (digitalRead(TIRETTE_PIN) == LOW) {
+    display.print("Button: ");
+    if (boutonState == HIGH) {
+      drawCross(50, 0);
+    } else {
+      drawCheckmark(50, 0);
+    }
+    display.setCursor(0, 20);
+    if (etape == CHOIX_EQUIPE) {
+      display.print("Equipe: ");
+      display.println(equipe == 0 ? "Jaune" : "Bleu");
+    } else {
+      display.print("Robot: ");
+      display.println(numeroRobot);
+    }
+    } else {
+      display.print("Tirette non detectee");
+    }
+    display.display();
+  }
+}
+
+void drawCross(int x, int y) {
+  display.drawLine(x, y, x + 10, y + 10, SSD1306_WHITE);
+  display.drawLine(x + 10, y, x, y + 10, SSD1306_WHITE);
+}
+
+void drawCheckmark(int x, int y) {
+  display.drawLine(x, y + 5, x + 5, y + 10, SSD1306_WHITE);
+  display.drawLine(x + 5, y + 10, x + 15, y, SSD1306_WHITE);
 }
 
 void initializeIMU() {
-  Wire.setClock(100000);
-  Wire.begin();
   writeIMURegister(0x68, 0x6B, 0x00);
   writeIMURegister(0x68, 0x1A, 0x05);
   writeIMURegister(0x68, 0x1C, 0x10);
@@ -107,13 +261,13 @@ void initializeMotors() {
   rightMotor = motorShield.getMotor(1);
   leftMotor = motorShield.getMotor(2);
 
-  const int initialSpeed = 100;
-  rightMotor->setSpeed(initialSpeed);
-  leftMotor->setSpeed(initialSpeed);
+  const int INITIAL_SPEED = 100;
+  rightMotor->setSpeed(INITIAL_SPEED);
+  leftMotor->setSpeed(INITIAL_SPEED);
   rightMotor->run(FORWARD);
   leftMotor->run(FORWARD);
-  attachInterrupt(digitalPinToInterrupt(2), onRightShaftMovement, FALLING);
-  attachInterrupt(digitalPinToInterrupt(3), onLeftShaftMovement, FALLING);
+  attachInterrupt(digitalPinToInterrupt(RIGHT_SHAFT_PIN), onRightShaftMovement, FALLING);
+  attachInterrupt(digitalPinToInterrupt(LEFT_SHAFT_PIN), onLeftShaftMovement, FALLING);
 }
 
 void setMotorSpeeds(float leftSpeed, float rightSpeed) {
@@ -131,22 +285,26 @@ void setMotorSpeeds(float leftSpeed, float rightSpeed) {
 
   leftMotor->run(leftDirection ? FORWARD : BACKWARD);
   rightMotor->run(rightDirection ? FORWARD : BACKWARD);
+
+  Serial.print("test");
 }
 
 void onRightShaftMovement() {
   rightCounter += (rightDirection ? 1 : -1);
   hasMoved = true;
-  
+
   unsigned long startTime = micros();
-  while (micros() - startTime < 50);
+  while (micros() - startTime < 50)
+    ;
 }
 
 void onLeftShaftMovement() {
   leftCounter += (leftDirection ? 1 : -1);
   hasMoved = true;
-  
+
   unsigned long startTime = micros();
-  while (micros() - startTime < 50);
+  while (micros() - startTime < 50)
+    ;
 }
 
 void adjustMotorControl() {
@@ -201,14 +359,14 @@ void transmitData() {
 
     float distance = readUltrasonicDistance();
 
-    // Serial.print("X Position: ");
-    // Serial.println(xPosition);
-    // Serial.print("Y Position: ");
-    // Serial.println(yPosition);
-    // Serial.print("Current Angle: ");
-    // Serial.println(currentAngle);
-    // Serial.print("Distance: ");
-    // Serial.println(distance);
+    Serial.print("X Position: ");
+    Serial.println(xPosition);
+    Serial.print("Y Position: ");
+    Serial.println(yPosition);
+    Serial.print("Current Angle: ");
+    Serial.println(currentAngle);
+    Serial.print("Distance: ");
+    Serial.println(distance);
 
     lastTransmitTime = currentMillis;
   }
@@ -217,9 +375,11 @@ void transmitData() {
 float readUltrasonicDistance() {
   // Trigger the ultrasonic sensor
   digitalWrite(TRIG_PIN, LOW);
-  while(micros() % 2 != 0);
+  while (micros() % 2 != 0)
+    ;
   digitalWrite(TRIG_PIN, HIGH);
-  while(micros() % 10 != 0);
+  while (micros() % 10 != 0)
+    ;
   digitalWrite(TRIG_PIN, LOW);
 
   // Read the echo duration in microseconds
