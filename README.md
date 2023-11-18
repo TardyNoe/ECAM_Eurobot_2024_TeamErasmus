@@ -1,6 +1,5 @@
 # ECAM Eurobot 2024 - Team Erasmus
-## Introduction
-This repository contains the setup and configuration for the ECAM Eurobot 2024 project by Team Erasmus. It includes steps for ROS installation, workspace configuration, package installation, and camera calibration specifically tailored for the 2024 Eurobot challenge.
+
 ## Prerequisites
 * Ubuntu 20.04
 * ROS Noetic
@@ -40,11 +39,11 @@ Launch the core in one terminal:
 roscore
 ```
 In another terminal, launch the script:
+
 ```
 source ~/catkin_ws/devel/setup.bash
 roslaunch Balise example.launch
 ```
-	  
 ### Additional Information for Raspberry Pi Users
 If using a Raspberry Pi, you can preview the video feed over a local network (note: this may slow down the Pi and preview a slow frame rate). 
 Refer to ROS Network Setup : http://wiki.ros.org/ROS/NetworkSetup
