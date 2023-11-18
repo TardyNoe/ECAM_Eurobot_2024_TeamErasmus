@@ -44,7 +44,7 @@ In another terminal, launch the script:
 source ~/catkin_ws/devel/setup.bash
 roslaunch Balise example.launch
 ```
-		  
+	  
 ### Additional Information for Raspberry Pi Users
 If using a Raspberry Pi, you can preview the video feed over a local network (note: this may slow down the Pi and preview a slow frame rate). 
 Refer to ROS Network Setup : http://wiki.ros.org/ROS/NetworkSetup
