@@ -25,7 +25,6 @@ git clone https://github.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus.git
 cd ~/catkin_ws/
 catkin build
 ```
-  
 ### Camera Calibration
 Calibrate your camera following this tutorial: [Monocular Camera Calibration](http://wiki.ros.org/camera_calibration/Tutorials/MonocularCalibration).  
 Update the camera resolution and D matrix in the Balise/config/camera{index}.config file.
