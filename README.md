@@ -27,8 +27,8 @@ catkin build
 ```
   
 ### Camera Calibration
-Calibrate your camera following this tutorial: Monocular Camera Calibration
-Update the resolution and D matrix in the camera{index}.config file.
+Calibrate your camera following this tutorial: [Monocular Camera Calibration](http://wiki.ros.org/camera_calibration/Tutorials/MonocularCalibration)
+Update the resolution and D matrix in the Balise/config/camera{index}.config file.
 ### Configuration
 The program is pre-configured for the 2024 Eurobot challenge.
 If Aruco tag positions change in future challenges, update the image in Balise/config/RefImage.png.
