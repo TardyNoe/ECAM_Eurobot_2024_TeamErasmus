@@ -1,7 +1,7 @@
 # ECAM Eurobot 2024 - Team Erasmus
 
 ## Prerequisites
-* Ubuntu 20.04 is recommended, might work on 18.04. 
+* Ubuntu 20.04, might work on 18.04. 
 * ROS Noetic
 ## Setup Instructions
 ### ROS Installation
