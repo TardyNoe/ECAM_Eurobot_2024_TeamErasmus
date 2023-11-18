@@ -5,7 +5,7 @@
 * ROS Noetic
 ## Setup Instructions
 ### ROS Installation
-Follow the ROS Noetic installation guide: ROS Noetic Installation for Ubuntu
+Follow the ROS Noetic installation guide: [ROS Noetic Installation for Ubuntu](http://wiki.ros.org/noetic/Installation/Ubuntu)  
 ### Workspace Configuration
 Initialize the workspace:
 ```
