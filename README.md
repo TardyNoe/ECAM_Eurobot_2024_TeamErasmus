@@ -3,6 +3,9 @@
 ## Prerequisites
 * Ubuntu 20.04, might work on 18.04. 
 * ROS Noetic
+* opencv-python
+* numpy
+* numpy-ros
 ## Setup Instructions
 ### ROS Installation
 Follow the ROS Noetic installation guide: [ROS Noetic Installation for Ubuntu](http://wiki.ros.org/noetic/Installation/Ubuntu)  
