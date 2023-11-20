@@ -31,7 +31,7 @@ For detailed instructions on setup, installation, and usage please visit:
 ## Acknowledgments
 
 Team members : 
-* Noé Tardy : 23613@ecam.be
+* Noé Tardy : noe.tardy@groupe-esigelec.org
 * Aurélien Coppée : 22040@ecam.be
 
 Thank you for your interest in our Eurobot Robotics Project! 😁
