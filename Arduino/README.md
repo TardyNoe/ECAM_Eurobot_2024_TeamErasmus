@@ -15,7 +15,7 @@ This repository contains the Arduino code and schematics for a key part of our r
 
 ## System Overview
 
-The robot's architecture is built around the Arduino Uno, which controls the overall functionality. The ESP32 module, integrated via I2C, provides wireless communication capabilities and interacts with an external positioning system. The MPU 6050 aids in rotation mesurment, while the ultrasonic sensor is utilized for obstacle avoidance and navigation. The motors are managed through the motor shield connected to the Arduino.
+The robot's architecture is built around the Arduino Uno, which controls the overall functionality. The ESP32 module, integrated via I2C, provides wireless communication capabilities and interacts with the external positioning system. The MPU 6050 aids in rotation mesurment, while the ultrasonic sensor is utilized for obstacle avoidance and navigation. The motors are managed through the motor shield connected to the Arduino.
 
 ## Code Structure
 
