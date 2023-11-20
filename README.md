@@ -1,4 +1,4 @@
-# ECAM Eurobot 2024 - Team Erasmus 🇫🇷🇧🇪
+# ECAM Eurobot 2024 - Team Erasmus 🇫🇷🇧🇪 🤯
 
 ## Project Overview
 Welcome to the main repository of our Eurobot Robotics Project.
