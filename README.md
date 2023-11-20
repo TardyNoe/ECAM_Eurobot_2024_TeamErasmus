@@ -53,7 +53,7 @@ Refer to ROS Network Setup : http://wiki.ros.org/ROS/NetworkSetup. You also need
 
 Published Topics
 * Aruco Tags Position : /tags/pose (geometry_msgs/PoseArray Message)
-*                     : /tags/id (std_msgs/Int16MultiArray Message)
+                      : /tags/id (std_msgs/Int16MultiArray Message)
 * Straighten Terrain Image : /terrain (sensor_msgs/Image Message)
 * Obstacles Mask : /obstacles (sensor_msgs/Image Message)
 * Path to goal : /path (nav_msgs/Path Message)
