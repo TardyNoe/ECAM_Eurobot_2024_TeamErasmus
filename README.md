@@ -49,10 +49,11 @@ roslaunch Balise example.launch
 ```
 ### Additional Information for Raspberry Pi Users
 If using a Raspberry Pi, you can preview the video feed over a local network (note: this may slow down the Pi and preview a slow frame rate). 
-Refer to ROS Network Setup : http://wiki.ros.org/ROS/NetworkSetup
+Refer to ROS Network Setup : http://wiki.ros.org/ROS/NetworkSetup. You also need to install ROS on the machine that preview the video feed (use a Ubutnu VM and rviz)
 
 Published Topics
-* Aruco Tags Position
-* Straighten Terrain Image
-* Obstacles Mask
-* Path
+* Aruco Tags Position : /tags/pose (geometry_msgs/PoseArray Message)
+*                     : /tags/id (std_msgs/Int16MultiArray Message)
+* Straighten Terrain Image : /terrain (sensor_msgs/Image Message)
+* Obstacles Mask : /obstacles (sensor_msgs/Image Message)
+* Path to goal : /path (nav_msgs/Path Message)
