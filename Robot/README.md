@@ -1,5 +1,5 @@
 # Eurobot Robotics Project - Arduino Code and Schematics
-
+![alt text]([http://url/to/img.png](https://github.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/blob/main/Robot/3D.png?raw=true))
 ## Introduction
 
 This repository contains the Arduino code and schematics for a key part of our robotic project developed for the Eurobot contest. The robot is designed with a focus on efficiency, accuracy, and adaptability.
