@@ -21,4 +21,4 @@ Team members :
 * Noé Tardy : noe.tardy@groupe-esigelec.org
 * Aurélien Coppée : 22040@ecam.be
 
-Thank you for your interest in our Eurobot Robotics Project! 😁
+Thank you for your interest in our Project! 😁
