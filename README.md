@@ -16,8 +16,9 @@ The project is divided into two main parts:
 2. **External Positioning System:** A separate system for the external positioning systemand and it's communication with the robot.
 
 
-## Repositories
+## Getting Started
 
+For detailed instructions on setup, installation, and usage please visit:
 - [**Robot Repository**](https://github.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/tree/main/Robot): Contains all the code, schematics, and documentation related to the robot's Arduino and ESP32 setup, sensors, and motor control.
 - [**External Positioning System Repository**](https://github.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/tree/main/Balise): Dedicated to the external positioning system, including its setup, code, and integration with the robot.
 
@@ -26,14 +27,6 @@ The project is divided into two main parts:
 - **Autonomous Navigation:** Utilizing ultrasonic sensors and motion tracking for precise movement.
 - **Wireless Communication:** ESP32 module for Wi-Fi communication with the positioning system.
 - **Advanced Control System:** Integrating Arduino Uno with motor controllers for efficient movement.
-
-## Getting Started
-
-For detailed instructions on setup, installation, and usage please visit:
-
-- [**Positioning System Setup Instructions**](link-to-positioning-system-repo#setup)
-- [**Robot Setup Instructions**](link-to-robot-repo#setup)
-
 
 ## Acknowledgments
 
