@@ -1,10 +1,5 @@
 # ECAM Eurobot 2024 - Team Erasmus 🇫🇷
 
-[Here]
-
-[Here]
-
-
 ## Project Overview
 Welcome to the main repository of our Eurobot Robotics Project.
 
@@ -19,8 +14,8 @@ The project is divided into two main parts:
 ## Getting Started
 
 For detailed instructions on setup, installation, and usage please visit:
-- [**Robot Repository**](https://github.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/tree/main/Robot): Contains all the code, schematics, and documentation related to the robot's Arduino and ESP32 setup, sensors, and motor control.
-- [**External Positioning System Repository**](https://github.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/tree/main/Balise): Dedicated to the external positioning system, including its setup, code, and integration with the robot.
+- [**Robot**](https://github.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/tree/main/Robot): Contains all the code, schematics, and documentation related to the robot's Arduino and ESP32 setup, sensors, and motor control.
+- [**External Positioning System**](https://github.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/tree/main/Balise): Dedicated to the external positioning system, including its setup, code, and integration with the robot.
 
 ## Project Features
 
