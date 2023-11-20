@@ -1,9 +1,7 @@
 # Eurobot Robotics Project - Arduino Code and Schematics
-![Screenshot](https://raw.githubusercontent.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/main/Robot/3D.png)
 ## Introduction
-
 This repository contains the Arduino code and schematics for a key part of our robotic project developed for the Eurobot contest. The robot is designed with a focus on efficiency, accuracy, and adaptability.
-
+![Screenshot](https://raw.githubusercontent.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/main/Robot/3D.png)
 ## Components
 
 - **Arduino Uno:** The primary microcontroller for managing robot operations.
