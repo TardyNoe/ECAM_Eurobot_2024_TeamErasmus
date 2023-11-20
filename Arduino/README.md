@@ -19,7 +19,7 @@ The robot's architecture is built around the Arduino Uno, which controls the ove
 
 ## Code Structure
 
-- **Main.ino:** The main Arduino program file.
+- **Arduino.ino:** The main Arduino program file.
 - **Esp.ino:** Code for ESP32 and Arduino communication.
 
 ## Schematic
