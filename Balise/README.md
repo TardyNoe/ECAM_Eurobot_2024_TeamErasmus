@@ -53,6 +53,9 @@ Refer to ROS Network Setup : http://wiki.ros.org/ROS/NetworkSetup. You also need
 
 ## System Architecture
 
+1. **Camera Node**:
+   - Function: open the camera on the device
+   - Publishes: `/cam1`, which contains the raw video feed of the camera.
 1. **Terrain Node**: 
    - Subscribes to: `/cam1` for receiving camera inputs.
    - Publishes: `/terrain`, which contains the straightened terrain image.
