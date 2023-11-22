@@ -51,8 +51,23 @@ roslaunch Balise example.launch
 If using a Raspberry Pi, you can preview the video feed over a local network (note: this may slow down the Pi and preview a slow frame rate). 
 Refer to ROS Network Setup : http://wiki.ros.org/ROS/NetworkSetup. You also need to install ROS on the machine that preview the video feed (use a Ubutnu VM and rviz)
 
-Published Topics
-* Aruco Tags Position : /tags/pose (geometry_msgs/PoseArray Message) and /tags/id (std_msgs/Int16MultiArray Message)
-* Straighten Terrain Image : /terrain (sensor_msgs/Image Message)
-* Obstacles Mask : /obstacles (sensor_msgs/Image Message)
-* Path to goal : /path (nav_msgs/Path Message)
+## System Architecture
+
+1. **Terrain Node**: 
+   - Subscribes to: `"/cam1"` for receiving camera inputs.
+   - Publishes: `"/terrain"`, which contains the straightened terrain image.
+
+2. **Mask Node**: 
+   - Subscribes to: `"/terrain"` for the straightened terrain image.
+   - Function: Compares the received image to a reference image.
+   - Publishes: `"/mask"`, which is the mask of obstacles on the terrain.
+
+3. **Astar Node**: 
+   - Subscribes to: `"/mask"` for obstacle data.
+   - Function: Calculates the optimal path avoiding obstacles.
+   - Publishes: `"/path"` which outlines the computed path.
+
+4. **TagsPosition Node**: 
+   - Subscribes to: `"/terrain"` for the straightened terrain image.
+   - Function: Identifies and locates tags in the image.
+   - Publishes: `"/tags/pose"` and `"/tags/id"` indicating the position and identification of tags.
