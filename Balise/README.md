@@ -54,20 +54,32 @@ Refer to ROS Network Setup : http://wiki.ros.org/ROS/NetworkSetup. You also need
 ## System Architecture
 
 1. **Terrain Node**: 
-   - Subscribes to: `"/cam1"` for receiving camera inputs.
-   - Publishes: `"/terrain"`, which contains the straightened terrain image.
+   - Subscribes to: `/cam1` for receiving camera inputs.
+   - Publishes: `/terrain`, which contains the straightened terrain image.
 
 2. **Mask Node**: 
-   - Subscribes to: `"/terrain"` for the straightened terrain image.
+   - Subscribes to: `/terrain` for the straightened terrain image.
    - Function: Compares the received image to a reference image.
-   - Publishes: `"/mask"`, which is the mask of obstacles on the terrain.
+   - Publishes: `/mask`, which is the mask of obstacles on the terrain.
 
 3. **Astar Node**: 
-   - Subscribes to: `"/mask"` for obstacle data.
+   - Subscribes to: `/mask` for obstacle data.
    - Function: Calculates the optimal path avoiding obstacles.
-   - Publishes: `"/path"` which outlines the computed path.
+   - Publishes: `/path` which outlines the computed path.
 
 4. **TagsPosition Node**: 
-   - Subscribes to: `"/terrain"` for the straightened terrain image.
+   - Subscribes to: `/terrain` for the straightened terrain image.
    - Function: Identifies and locates tags in the image.
-   - Publishes: `"/tags/pose"` and `"/tags/id"` indicating the position and identification of tags.
+   - Publishes: `/tags/pose` and `/tags/id` indicating the position and identification of tags.
+5. **PamiPosition Node**:
+  - Subscribes to: `/terrain` for the straightened terrain image and .
+  - Function: find the Pami color on the terrain
+  - Publishes: `/Pami/videoPosition` indicating the visual position of the Pami.
+6. **RobotSender Node**: 
+   - Subscribes to: `/path` and `/Pami/CombinedPostion`
+   - Function: Compute the robot desired angle and motor power and send it via wifi
+   - Publishes: `/Pami/localPosition` indicating the recived position from the Pami (encoder + gyrosocpe).
+6. **CombinePosition Node**: 
+   - Subscribes to: `/Pami/videoPosition` and `/Pami/localPosition`
+   - Function: Compute the robot final robot position
+   - Publishes: `/Pami/CombinedPostion`. 
