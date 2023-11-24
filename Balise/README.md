@@ -6,6 +6,7 @@
 * opencv-python
 * numpy
 * numpy-ros
+* cv_bridge
 ## Setup Instructions
 ### ROS Installation
 Follow the ROS Noetic installation guide: [ROS Noetic Installation for Ubuntu](http://wiki.ros.org/noetic/Installation/Ubuntu)  
