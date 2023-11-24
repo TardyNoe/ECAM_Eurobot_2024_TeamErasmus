@@ -1,74 +1,91 @@
 #include "WiFi.h"
 #include "AsyncUDP.h"
 #include <Wire.h>
-const char* ssid = "Livebox-F0E62";
-const char* pass = "mW69KnaMhLatv9UQhM";
-const int rele = 23;
-AsyncUDP udp;
-int datax = 0;
-int datay = 0;
-int dataa = 0;
-int datadist = 0;
 
-int angleGoal = -180;
-int power = 0;
+const char* kSsid = "Raspb";
+const char* kPassword = "12345678";
+const int kRelayPin = 23;
+
+AsyncUDP udp;
+
+struct RobotData {
+  int x = 0;
+  int y = 0;
+  int angle = 0;
+  int distance = 0;
+} robotData;
+
+struct ControlData {
+  int angleGoal = 0;
+  int power = 0;
+} controlData;
+
+void receiveEvent(int howMany) {
+  int index = 0;
+  while (Wire.available() > 1) {
+    byte high = Wire.read();
+    byte low = Wire.read();
+    switch (index) {
+      case 0: robotData.x = word(high, low) - 32768; break;
+      case 1: robotData.y = word(high, low) - 32768; break;
+      case 2: robotData.angle = word(high, low) - 32768; break;
+      case 3: robotData.distance = word(high, low) - 32768; break;
+    }
+    index++;
+  }
+}
 
 void requestEvent() {
-  Wire.begin(8);
-  Wire.write(angleGoal);  
-  Wire.write(power);
+  int dataToSend[2] = {controlData.power, controlData.angleGoal};
+  for (int value : dataToSend) {
+    Wire.write(highByte(value));
+    Wire.write(lowByte(value));
+  }
+}
+
+void setupWiFi() {
+  WiFi.disconnect(true);
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(kSsid, kPassword);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.print("Connected to WiFi. IP: ");
+  Serial.println(WiFi.localIP());
+}
+
+void setupUDP() {
+  if (udp.listen(1234)) {
+    Serial.println("UDP Listening...");
+    udp.onPacket([](AsyncUDPPacket packet) {
+      byte byteArray[7] = {
+        robotData.x & 255, robotData.x >> 8 & 255,
+        robotData.y & 255, robotData.y >> 8 & 255,
+        robotData.angle & 255, robotData.angle >> 8 & 255,
+        robotData.distance & 255
+      };
+      packet.write(byteArray, sizeof(byteArray));
+
+      uint8_t controlBytes[3];
+      size_t lengthToCopy = min(packet.length(), sizeof(controlBytes));
+      memcpy(controlBytes, packet.data(), lengthToCopy);
+      controlData.angleGoal = (controlBytes[0] << 8) + controlBytes[1] - 180;
+      controlData.power = controlBytes[2];
+    });
+  }
 }
 
 void setup() {
-    Serial.begin(115200);
-    Wire.onRequest(requestEvent);
-    pinMode(rele, OUTPUT);
-    WiFi.disconnect(true);
-    WiFi.mode(WIFI_STA);
-    WiFi.begin(ssid, pass);
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
-        Serial.print(".");
-    }
-    if (udp.listen(1234)) {
-        Serial.print("UDP Listening on IP: ");
-        Serial.println(WiFi.localIP());
-        udp.onPacket([](AsyncUDPPacket packet) {
-            //uint8_t byteArray[] = {0x01, 0x02, 0x03, 0x04};
-            byte byteArray[7];        
-            byteArray[0] = datax & 255;
-            byteArray[1] = (datax >> 8)  & 255;
-            byteArray[2] = datay & 255;
-            byteArray[3] = (datay >> 8)  & 255;
-            byteArray[4] = dataa & 255;
-            byteArray[5] = (dataa >> 8)  & 255;
-            byteArray[6] = datadist & 255;
-            size_t byteArraySize = sizeof(byteArray) / sizeof(byteArray[0]);
-            packet.write(byteArray, byteArraySize);
-
-            uint8_t byteArray2[3];
-            size_t lengthToCopy = packet.length() > sizeof(byteArray2) ? sizeof(byteArray2) : packet.length();
-            memcpy(byteArray2, packet.data(), lengthToCopy);
-            angleGoal = (byteArray2[0] << 8) + byteArray2[1] -180;
-            power = byteArray2[2];
-        });
-    }
+  Serial.begin(115200);
+  Wire.begin(8);
+  Wire.onReceive(receiveEvent);
+  Wire.onRequest(requestEvent);
+  pinMode(kRelayPin, OUTPUT);
+  setupWiFi();
+  setupUDP();
 }
 
 void loop() {
-    delay(100);
-    Wire.requestFrom(9, 2); 
-    byte x1,x2;
-    x1 = Wire.read();  
-    x2 = Wire.read();
-    datax = (int)x1 << 8 | (int)x2;
-    Serial.println(datax);
-    x1 = Wire.read();
-    x2 = Wire.read();
-    datay = (int)x1 << 8 | (int)x2;
-    x1 = Wire.read();
-    x2 = Wire.read();
-    dataa = (int)x1 << 8 | (int)x2;
-    x1 = Wire.read();
-    datadist = (int)x1;
-  }
+  delay(200); // Consider reducing or removing this delay depending on application
+}
