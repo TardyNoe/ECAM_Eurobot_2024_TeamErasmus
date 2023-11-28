@@ -1,0 +1,12 @@
+<launch>
+    <!-- Launch UDPtest.py node -->
+    <node name="UDPtest" pkg="Pami" type="RobotSender.py" output="screen" />
+
+    <!-- Launch PathPublisher node -->
+    <node name="PathPublisher" pkg="Pami" type="PathPublisher.py" output="screen" />
+
+    <!-- Launch followPath node -->
+    <node name="followPath" pkg="Pami" type="FollowPath.py" output="screen" />
+    
+</launch>
+
