@@ -1,0 +1,10 @@
+<launch>
+    <node name="Cam" pkg="Pami" type="CameraPublisher.py" output="screen" />
+    <node name="Terrain" pkg="Pami" type="Terrain.py" output="screen" />
+    <node name="Mask" pkg="Pami" type="Mask.py" output="screen" />
+    <node name="PamiPosition" pkg="Pami" type="PamiPosition.py" output="screen" />
+    <node name="Astar" pkg="Pami" type="Astar.py" output="screen" />
+    <node name="RobotSender" pkg="Pami" type="RobotSender.py" output="screen" />
+    <node name="FollowPath" pkg="Pami" type="FollowPath.py" output="screen" />
+</launch>
+

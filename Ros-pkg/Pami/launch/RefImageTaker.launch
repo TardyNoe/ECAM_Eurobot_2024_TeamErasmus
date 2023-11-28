@@ -1,0 +1,4 @@
+<launch>
+    <node name="RobotSender" pkg="Pami" type="RobotSender.py" output="screen" />
+</launch>
+
