@@ -8,7 +8,7 @@ Welcome to the main repository of our Eurobot Robotics Project.
 The project is divided into two main parts:
 
 1. [**Robot**](https://github.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/tree/main/Robot): This includes the design and code for the robot itself, featuring an Arduino Uno, ESP32, sensors, and motor controllers.
-2. [**External Positioning System**](https://github.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/tree/main/Balise): A separate system for the external positioning systemand and it's communication with the robot.
+2. [**External Positioning System**](https://github.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/tree/main/Ros-pkg): A separate system for the external positioning systemand and it's communication with the robot.
 
 ## Project Features
 
