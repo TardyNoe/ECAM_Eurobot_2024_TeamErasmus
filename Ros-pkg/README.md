@@ -83,7 +83,7 @@ Refer to ROS Network Setup : http://wiki.ros.org/ROS/NetworkSetup. You also need
    - Subscribes to: `/path` and `/Pami/CombinedPostion`
    - Function: Compute the robot desired angle and motor power and send it via wifi
    - Publishes: `/Pami/localPosition` indicating the recived position from the Pami (encoder + gyrosocpe).
-6. **CombinePosition Node**: 
+6. **Fusion Node**: 
    - Subscribes to: `/Pami/videoPosition` and `/Pami/localPosition`
    - Function: Compute the robot final robot position
-   - Publishes: `/Pami/CombinedPostion`. 
+   - Publishes: `/Pami/fusion`. 
