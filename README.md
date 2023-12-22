@@ -21,6 +21,8 @@ The PAMI operates similarly to an RC car. The Raspberry Pi sends speed and angle
 
 We discovered that using the encoder to measure the angle was inaccurate, so we switched to using a gyroscope. By integrating the velocity, we obtain the angle. The angle is subject to drift proportional to time, but the PAMI's lifetime is only 10 seconds. During this time, the drift is well less than 1 degree.
 
+To control the robot's angle, we use a simple proportional control loop running on the Arduino. For position control, we employ a similar proportional control loop, but it operates on the Raspberry Pi. The robot determines its position using the encoder and transmits this data to the Raspberry Pi via the ESP.
+
 ## Design and Fabrication
 
 We employed Fusion 360 to design the robot. The robot's structure was 3D printed. We designed the robot in multiple smaller parts, ensuring that if any component needed redesigning or replacement, it could be done quickly and efficiently without the need to reprint the entire structure.
