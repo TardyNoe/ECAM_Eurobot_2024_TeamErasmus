@@ -8,8 +8,8 @@ We build an External positionning system form a Raspberry PI and a camera, you c
 
 - **Arduino Uno:** The primary microcontroller for managing robot operations.
 - **ESP32:** Used for Wi-Fi communication with an external positioning beacon and I2C communication with the Arduino Uno.
-- **MPU 6050:** A motion tracking device that includes a gyroscope and accelerometer.
-- **Ultrasonic Sensor:** For obstacle detection and distance measurement.
+- **MPU 6050:** A device that includes a gyroscope and accelerometer.
+- **Ultrasonic Sensor:** For obstacle detection.
 - **Motor Shield:** To control the motors with the Arduino Uno.
 - **2 Motors:** Driving the movement of the robot.
 
