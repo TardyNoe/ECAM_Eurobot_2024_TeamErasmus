@@ -26,7 +26,7 @@ To control the robot's angle, we use a simple proportional control loop running 
 ## Design and Fabrication
 
 We employed Fusion 360 to design the robot. The robot's structure was 3D printed. We designed the robot in multiple smaller parts, ensuring that if any component needed redesigning or replacement, it could be done quickly and efficiently without the need to reprint the entire structure.
-Here is the final robot whith all the components : 
+Here is the final robot whith all the components (Robot.3fz): 
 ![Screenshot](https://raw.githubusercontent.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/main/Robot/3D.png)
 Here is the 3D parts :
 ![Screenshot](https://raw.githubusercontent.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/main/Robot/3D2.png)
