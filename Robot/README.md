@@ -26,7 +26,7 @@ We employed Fusion 360 to design the robot. The robot's structure was 3D printed
 Here is the final robot whith all the components : 
 ![Screenshot](https://raw.githubusercontent.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/main/Robot/3D.png)
 Here is the 3D parts :
-![Screenshot](https://raw.githubusercontent.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/main/Robot/3D.png)
+![Screenshot](https://raw.githubusercontent.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/main/Robot/3D2.png)
 
 ## Code Structure
 
