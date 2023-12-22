@@ -34,4 +34,4 @@ Here is the 3D parts :
 - **Esp.ino:** Code for ESP32 and Arduino communication.
 
 ## Schematic
-![Screenshot](https://raw.githubusercontent.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/main/Robot/cricuit.png)
+![Screenshot](https://raw.githubusercontent.com/TardyNoe/ECAM_Eurobot_2024_TeamErasmus/main/Robot/circuit.png)
